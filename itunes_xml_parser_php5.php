@@ -1,6 +1,13 @@
 <?php
-/* 
+/*
   iTunes XML PhP Parser for PHP 5
+  Copyright (C) 2013 Conan Theobald [http://github.com/shuckster]
+  version: 1.1
+  	Changes:
+  		* Type-cast integers and booleans
+
+  based on:
+
   Copyright (C) 2005 Peter Minarik [http://www.wirsindecht.org]
   version: 1.00
   based on:
@@ -13,20 +20,20 @@
   modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
   as published by the Free Software Foundation; either version 2.1
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
   Library General Public License for more details.
-    
+
   You should have received a copy of the GNU Library General Public
   License along with this library; if not, write to the Free
   Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-  MA 02111-1307, USA 
-  
+  MA 02111-1307, USA
+
   iTunes is a product by Apple Computer, Inc.
   http://www.apple.com/
-  
+
 */
 
 // pass the $filename of the xml file you want to parse
@@ -36,9 +43,9 @@
 // the function will return an array of songs
 // each song is an array of variables that makes sense
 /* example output
-Array ( 
-	[0] => Array 
-		( 
+Array (
+	[0] => Array
+		(
 			[Track ID] => 34
 			[Name] => depeche mode gameboy megamix!
 			[Artist] => nullsleep
@@ -95,25 +102,25 @@ function iTunesXmlParser($filename, $sort_field=NULL, $sort_direction="up")
 	global $g_ITX_field, $g_ITX_direction;
 	$g_ITX_field = $sort_field;
 	$g_ITX_direction = $sort_direction;
-	
+
 	// init main variables
 	$songs = array();
 	$xml = NULL; // parsed XML
-	
+
 	// read the file into $xml first
 	/*ob_start();
 		readfile($filename);
 		$xml = ob_get_contents();
 	ob_end_clean();*/
-	
+
 	// open the xml document in the DOM
 	$dom = new DomDocument();
 	if (!$dom->load($filename))
 		die("Could not parse iTunes XML file: ".$filename);
-	
+
 	// get the root element
 	$root = $dom->documentElement;
-	
+
 	// yeah "dict" means everything, playlist, and song that makes sense... NOT
 	// find the first "dict"
 	$children = $root->childNodes;
@@ -136,7 +143,7 @@ function iTunesXmlParser($filename, $sort_field=NULL, $sort_direction="up")
 			break;
 		}
 	}
-		
+
 	// now go through all the child elements
 	$children = $root->childNodes;
 	foreach ($children as $child)
@@ -145,7 +152,7 @@ function iTunesXmlParser($filename, $sort_field=NULL, $sort_direction="up")
 		if ($child->nodeName=="dict")
 		{
 			$song = NULL;
-			
+
 			// get all the elements
 			$elements = $child->childNodes;
 			for ($i = 0; $i < $elements->length; $i++)
@@ -155,7 +162,7 @@ function iTunesXmlParser($filename, $sort_field=NULL, $sort_direction="up")
 				//  <artist>Daft Punk</artist>
 				// but in Apple iTunes bong land we do:
 				//  <key>Artist</key><string>Daft Punk</string>
-				
+
 				if ($elements->item($i)->nodeName=="key")
 				{
 					// so I'm just going to expect that i++ (<string>, <int>, etc...) is always going to be there,
@@ -163,17 +170,31 @@ function iTunesXmlParser($filename, $sort_field=NULL, $sort_direction="up")
 					//  instead of doing some error checking here to make sure there are matching values to keys
 					$key = $elements->item($i)->textContent;
 					$i++;
-					$value = $elements->item($i)->textContent;
+
+					switch ( $elements->item($i)->nodeName ) {
+						case "true":
+						case "false":
+							$value = "true" == $elements->item($i)->nodeName;
+						break;
+
+						case "integer":
+							$value = (int) $elements->item($i)->textContent;
+						break;
+
+						default:
+							$value = $elements->item($i)->textContent;
+					}
+
 					$song[$key]=$value;
 				}
 			}
-			
+
 			// save the song
 			if ($song)
 				$songs[] = $song;
 		}
 	}
-	
+
 	// now sort the songs
 	// $sort_field=NULL, $sort_direction="up"
 	if ($sort_field)
@@ -190,14 +211,14 @@ $g_ITX_direction = NULL;
 function iTunesXmlSongSort($left, $right)
 {
 	global $g_ITX_field, $g_ITX_direction;
-	
+
 	// return the strcmp() of the two fields
 	if (isset($left[$g_ITX_field])&&isset($right[$g_ITX_field]))
 	{
 		if (strcasecmp($g_ITX_direction, "up"))
 			return strcasecmp($left[$g_ITX_field],$right[$g_ITX_field]);
 		else
-			return strcasecmp($right[$g_ITX_field],$left[$g_ITX_field]);	
+			return strcasecmp($right[$g_ITX_field],$left[$g_ITX_field]);
 	}
 	elseif (isset($left[$g_ITX_field]))
 		return -1;
