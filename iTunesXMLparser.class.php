@@ -38,65 +38,63 @@
 
 */
 
-// pass the $filename of the xml file you want to parse
-// [optional] $sort_field = can be set to 'Album', 'Rating', etc...  left alone will not sort the list
-// [optional] $sort_direction = 'up' or 'down'
-//
-// the function will return an array of songs
-// each song is an array of variables that makes sense
-/* example output
-Array (
-	[0] => Array
-		(
-			[Track ID] => 34
-			[Name] => depeche mode gameboy megamix!
-			[Artist] => nullsleep
-			[Composer] => nullsleep
-			[Album] => www.nullsleep.com
-			[Genre] => Electronic
-			[Kind] => MPEG audio file
-			[Size] => 13901952
-			[Total Time] => 868780
-			[Year] => 2002
-			[Date Modified] => 2002-12-17T10:24:18Z
-			[Date Added] => 2003-11-11T06:38:24Z
-			[Bit Rate] => 128
-			[Sample Rate] => 44100
-			[Comments] => www.8bitpeoples.com 1. enjoy the silence 2. photographic 3. new life 4. everything counts
-			[Play Count] => 3
-			[Play Date] => -1142117754
-			[Play Date UTC] => 2003-11-28T15:32:22Z
-			[Rating] => 80
-			[Normalization] => 976
-			[Location] => file://localhost/C:/media/nullsleep/www.nullsleep.com/depeche%20mode%20gameboy%20megamix!.mp3/
-			[File Folder Count] => 4
-			[Library Folder Count] => 1
-		)
-    [1] => Array
-		(
-			[Track ID] => 65
-			[Name] => Daftendirekt
-			[Artist] => Daft Punk
-			[Album] => Homework
-			[Genre] => Electronic
-			[Kind] => MPEG audio file
-			[Size] => 4098756
-			[Total Time] => 164649
-			[Track Number] => 1
-			[Date Modified] => 2003-11-28T19:45:05Z
-			[Date Added] => 2003-11-11T06:38:25Z
-			[Bit Rate] => 192
-			[Sample Rate] => 44100
-			[Play Count] => 5
-			[Play Date] => -1142119790
-			[Play Date UTC] => 2003-11-28T14:58:26Z
-			[Rating] => 80
-			[Normalization] => 1414
-			[Location] => file://localhost/C:/media/Daft%20Punk/Homework/01%20Daftendirekt.MP3/
-			[File Folder Count] => 4
-			[Library Folder Count] => 1
-		)
-}
+/*
+  See "example.php" for usage.
+
+  Example output:
+
+	Array (
+		[0] => Array
+			(
+				[Track ID] => 34
+				[Name] => depeche mode gameboy megamix!
+				[Artist] => nullsleep
+				[Composer] => nullsleep
+				[Album] => www.nullsleep.com
+				[Genre] => Electronic
+				[Kind] => MPEG audio file
+				[Size] => 13901952
+				[Total Time] => 868780
+				[Year] => 2002
+				[Date Modified] => 2002-12-17T10:24:18Z
+				[Date Added] => 2003-11-11T06:38:24Z
+				[Bit Rate] => 128
+				[Sample Rate] => 44100
+				[Comments] => www.8bitpeoples.com 1. enjoy the silence 2. photographic 3. new life 4. everything counts
+				[Play Count] => 3
+				[Play Date] => -1142117754
+				[Play Date UTC] => 2003-11-28T15:32:22Z
+				[Rating] => 80
+				[Normalization] => 976
+				[Location] => file://localhost/C:/media/nullsleep/www.nullsleep.com/depeche%20mode%20gameboy%20megamix!.mp3/
+				[File Folder Count] => 4
+				[Library Folder Count] => 1
+			)
+	    [1] => Array
+			(
+				[Track ID] => 65
+				[Name] => Daftendirekt
+				[Artist] => Daft Punk
+				[Album] => Homework
+				[Genre] => Electronic
+				[Kind] => MPEG audio file
+				[Size] => 4098756
+				[Total Time] => 164649
+				[Track Number] => 1
+				[Date Modified] => 2003-11-28T19:45:05Z
+				[Date Added] => 2003-11-11T06:38:25Z
+				[Bit Rate] => 192
+				[Sample Rate] => 44100
+				[Play Count] => 5
+				[Play Date] => -1142119790
+				[Play Date UTC] => 2003-11-28T14:58:26Z
+				[Rating] => 80
+				[Normalization] => 1414
+				[Location] => file://localhost/C:/media/Daft%20Punk/Homework/01%20Daftendirekt.MP3/
+				[File Folder Count] => 4
+				[Library Folder Count] => 1
+			)
+	}
 */
 
 class iTunesXMLParser {
