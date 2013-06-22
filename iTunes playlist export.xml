@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Major Version</key><integer>1</integer>
+	<key>Minor Version</key><integer>1</integer>
+	<key>Date</key><date>2013-06-22T17:47:33Z</date>
+	<key>Application Version</key><string>11.0.4</string>
+	<key>Features</key><integer>5</integer>
+	<key>Show Content Ratings</key><true/>
+	<key>Music Folder</key><string>file://localhost/Users/shuckster/Music/iTunes/iTunes%20Media/</string>
+	<key>Library Persistent ID</key><string>E17EF7BD13C9360B</string>
+	<key>Tracks</key>
+	<dict>
+		<key>10276</key>
+		<dict>
+			<key>Track ID</key><integer>10276</integer>
+			<key>Name</key><string>The Law of Gravitation</string>
+			<key>Artist</key><string>Richard Feynman</string>
+			<key>Album</key><string>The Character of Physical Law</string>
+			<key>Genre</key><string>Science</string>
+			<key>Kind</key><string>MPEG-4 video file</string>
+			<key>Size</key><integer>162322193</integer>
+			<key>Total Time</key><integer>3363463</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Track Count</key><integer>7</integer>
+			<key>Year</key><integer>1964</integer>
+			<key>Date Modified</key><date>2013-01-24T23:00:08Z</date>
+			<key>Date Added</key><date>2012-11-24T17:10:04Z</date>
+			<key>Bit Rate</key><integer>93</integer>
+			<key>Comments</key><string>The Messenger Lectures</string>
+			<key>Play Count</key><integer>4</integer>
+			<key>Play Date</key><integer>3451417372</integer>
+			<key>Play Date UTC</key><date>2013-05-14T22:02:52Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Series</key><string>The Character of Physical Law</string>
+			<key>Episode</key><string>1</string>
+			<key>Episode Order</key><integer>1</integer>
+			<key>Sort Album</key><string>Character of Physical Law</string>
+			<key>Sort Name</key><string>Law of Gravitation</string>
+			<key>Sort Series</key><string>Character of Physical Law</string>
+			<key>Persistent ID</key><string>411D997FCACF90C9</string>
+			<key>Track Type</key><string>File</string>
+			<key>Has Video</key><true/>
+			<key>HD</key><false/>
+			<key>Video Width</key><integer>470</integer>
+			<key>Video Height</key><integer>360</integer>
+			<key>TV Show</key><true/>
+			<key>Location</key><string>file://localhost/Users/shuckster/Music/iTunes/iTunes%20Media/TV%20Shows/The%20Character%20of%20Physical%20Law/01%20The%20Law%20of%20Gravitation.mp4</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+		<key>10278</key>
+		<dict>
+			<key>Track ID</key><integer>10278</integer>
+			<key>Name</key><string>The Relation of Mathematics to Physics</string>
+			<key>Artist</key><string>Richard Feynman</string>
+			<key>Album</key><string>The Character of Physical Law</string>
+			<key>Genre</key><string>Science</string>
+			<key>Kind</key><string>MPEG-4 video file</string>
+			<key>Size</key><integer>166594710</integer>
+			<key>Total Time</key><integer>3353785</integer>
+			<key>Track Number</key><integer>2</integer>
+			<key>Track Count</key><integer>7</integer>
+			<key>Year</key><integer>1964</integer>
+			<key>Date Modified</key><date>2013-01-24T23:00:10Z</date>
+			<key>Date Added</key><date>2012-11-24T17:14:04Z</date>
+			<key>Bit Rate</key><integer>93</integer>
+			<key>Comments</key><string>The Messenger Lectures</string>
+			<key>Play Count</key><integer>12</integer>
+			<key>Play Date</key><integer>3451498130</integer>
+			<key>Play Date UTC</key><date>2013-05-15T20:28:50Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Series</key><string>The Character of Physical Law</string>
+			<key>Episode</key><string>2</string>
+			<key>Episode Order</key><integer>2</integer>
+			<key>Sort Album</key><string>Character of Physical Law</string>
+			<key>Sort Name</key><string>Relation of Mathematics to Physics</string>
+			<key>Sort Series</key><string>Character of Physical Law</string>
+			<key>Persistent ID</key><string>146014139D12D863</string>
+			<key>Track Type</key><string>File</string>
+			<key>Has Video</key><true/>
+			<key>HD</key><false/>
+			<key>Video Width</key><integer>470</integer>
+			<key>Video Height</key><integer>360</integer>
+			<key>TV Show</key><true/>
+			<key>Location</key><string>file://localhost/Users/shuckster/Music/iTunes/iTunes%20Media/TV%20Shows/The%20Character%20of%20Physical%20Law/02%20The%20Relation%20of%20Mathematics%20to%20Physics.mp4</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+		<key>10280</key>
+		<dict>
+			<key>Track ID</key><integer>10280</integer>
+			<key>Name</key><string>The Great Conservation Principles</string>
+			<key>Artist</key><string>Richard Feynman</string>
+			<key>Album</key><string>The Character of Physical Law</string>
+			<key>Genre</key><string>Science</string>
+			<key>Kind</key><string>MPEG-4 video file</string>
+			<key>Size</key><integer>168807822</integer>
+			<key>Total Time</key><integer>3360920</integer>
+			<key>Track Number</key><integer>3</integer>
+			<key>Track Count</key><integer>7</integer>
+			<key>Year</key><integer>1964</integer>
+			<key>Date Modified</key><date>2013-01-24T23:00:11Z</date>
+			<key>Date Added</key><date>2012-11-24T17:14:13Z</date>
+			<key>Bit Rate</key><integer>93</integer>
+			<key>Comments</key><string>The Messenger Lectures</string>
+			<key>Play Count</key><integer>5</integer>
+			<key>Play Date</key><integer>3446504991</integer>
+			<key>Play Date UTC</key><date>2013-03-19T01:29:51Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Series</key><string>The Character of Physical Law</string>
+			<key>Episode</key><string>3</string>
+			<key>Episode Order</key><integer>3</integer>
+			<key>Sort Album</key><string>Character of Physical Law</string>
+			<key>Sort Name</key><string>Great Conservation Principles</string>
+			<key>Sort Series</key><string>Character of Physical Law</string>
+			<key>Persistent ID</key><string>0573A225E494D091</string>
+			<key>Track Type</key><string>File</string>
+			<key>Has Video</key><true/>
+			<key>HD</key><false/>
+			<key>Video Width</key><integer>480</integer>
+			<key>Video Height</key><integer>360</integer>
+			<key>TV Show</key><true/>
+			<key>Location</key><string>file://localhost/Users/shuckster/Music/iTunes/iTunes%20Media/TV%20Shows/The%20Character%20of%20Physical%20Law/03%20The%20Great%20Conservation%20Principles.mp4</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+		<key>10282</key>
+		<dict>
+			<key>Track ID</key><integer>10282</integer>
+			<key>Name</key><string>Symmetry in Physical Law</string>
+			<key>Artist</key><string>Richard Feynman</string>
+			<key>Album</key><string>The Character of Physical Law</string>
+			<key>Genre</key><string>Science</string>
+			<key>Kind</key><string>MPEG-4 video file</string>
+			<key>Size</key><integer>164740848</integer>
+			<key>Total Time</key><integer>3421522</integer>
+			<key>Track Number</key><integer>4</integer>
+			<key>Track Count</key><integer>7</integer>
+			<key>Year</key><integer>1964</integer>
+			<key>Date Modified</key><date>2013-01-24T23:00:12Z</date>
+			<key>Date Added</key><date>2012-11-24T17:14:24Z</date>
+			<key>Bit Rate</key><integer>93</integer>
+			<key>Comments</key><string>The Messenger Lectures</string>
+			<key>Play Count</key><integer>8</integer>
+			<key>Play Date</key><integer>3448674226</integer>
+			<key>Play Date UTC</key><date>2013-04-13T04:03:46Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Series</key><string>The Character of Physical Law</string>
+			<key>Episode</key><string>4</string>
+			<key>Episode Order</key><integer>4</integer>
+			<key>Sort Album</key><string>Character of Physical Law</string>
+			<key>Sort Series</key><string>Character of Physical Law</string>
+			<key>Persistent ID</key><string>7185C0F8CB03BB73</string>
+			<key>Track Type</key><string>File</string>
+			<key>Has Video</key><true/>
+			<key>HD</key><false/>
+			<key>Video Width</key><integer>470</integer>
+			<key>Video Height</key><integer>360</integer>
+			<key>TV Show</key><true/>
+			<key>Location</key><string>file://localhost/Users/shuckster/Music/iTunes/iTunes%20Media/TV%20Shows/The%20Character%20of%20Physical%20Law/04%20Symmetry%20in%20Physical%20Law.mp4</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+		<key>10284</key>
+		<dict>
+			<key>Track ID</key><integer>10284</integer>
+			<key>Name</key><string>The Distinction of Past and Future</string>
+			<key>Artist</key><string>Richard Feynman</string>
+			<key>Album</key><string>The Character of Physical Law</string>
+			<key>Genre</key><string>Science</string>
+			<key>Kind</key><string>MPEG-4 video file</string>
+			<key>Size</key><integer>139472431</integer>
+			<key>Total Time</key><integer>2769080</integer>
+			<key>Track Number</key><integer>5</integer>
+			<key>Track Count</key><integer>7</integer>
+			<key>Year</key><integer>1964</integer>
+			<key>Date Modified</key><date>2013-01-24T23:00:13Z</date>
+			<key>Date Added</key><date>2012-11-24T17:14:29Z</date>
+			<key>Bit Rate</key><integer>93</integer>
+			<key>Comments</key><string>The Messenger Lectures</string>
+			<key>Play Count</key><integer>7</integer>
+			<key>Play Date</key><integer>3448754431</integer>
+			<key>Play Date UTC</key><date>2013-04-14T02:20:31Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Series</key><string>The Character of Physical Law</string>
+			<key>Episode</key><string>5</string>
+			<key>Episode Order</key><integer>5</integer>
+			<key>Sort Album</key><string>Character of Physical Law</string>
+			<key>Sort Name</key><string>Distinction of Past and Future</string>
+			<key>Sort Series</key><string>Character of Physical Law</string>
+			<key>Persistent ID</key><string>D9D9FC7B9FE28883</string>
+			<key>Track Type</key><string>File</string>
+			<key>Has Video</key><true/>
+			<key>HD</key><false/>
+			<key>Video Width</key><integer>480</integer>
+			<key>Video Height</key><integer>360</integer>
+			<key>TV Show</key><true/>
+			<key>Location</key><string>file://localhost/Users/shuckster/Music/iTunes/iTunes%20Media/TV%20Shows/The%20Character%20of%20Physical%20Law/05%20The%20Distinction%20of%20Past%20and%20Future.mp4</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+		<key>10286</key>
+		<dict>
+			<key>Track ID</key><integer>10286</integer>
+			<key>Name</key><string>Probability and Uncertainty</string>
+			<key>Artist</key><string>Richard Feynman</string>
+			<key>Album</key><string>The Character of Physical Law</string>
+			<key>Genre</key><string>Science</string>
+			<key>Kind</key><string>MPEG-4 video file</string>
+			<key>Size</key><integer>157707773</integer>
+			<key>Total Time</key><integer>3368600</integer>
+			<key>Track Number</key><integer>6</integer>
+			<key>Track Count</key><integer>7</integer>
+			<key>Year</key><integer>1964</integer>
+			<key>Date Modified</key><date>2013-01-24T23:00:14Z</date>
+			<key>Date Added</key><date>2012-11-24T17:14:41Z</date>
+			<key>Bit Rate</key><integer>93</integer>
+			<key>Comments</key><string>The Messenger Lectures</string>
+			<key>Play Count</key><integer>3</integer>
+			<key>Play Date</key><integer>3447460082</integer>
+			<key>Play Date UTC</key><date>2013-03-30T02:48:02Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Series</key><string>The Character of Physical Law</string>
+			<key>Episode</key><string>6</string>
+			<key>Episode Order</key><integer>6</integer>
+			<key>Sort Album</key><string>Character of Physical Law</string>
+			<key>Sort Series</key><string>Character of Physical Law</string>
+			<key>Persistent ID</key><string>2D3AA1AFF99FC5C6</string>
+			<key>Track Type</key><string>File</string>
+			<key>Has Video</key><true/>
+			<key>HD</key><false/>
+			<key>Video Width</key><integer>470</integer>
+			<key>Video Height</key><integer>360</integer>
+			<key>TV Show</key><true/>
+			<key>Location</key><string>file://localhost/Users/shuckster/Music/iTunes/iTunes%20Media/TV%20Shows/The%20Character%20of%20Physical%20Law/06%20Probability%20and%20Uncertainty.mp4</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+		<key>10288</key>
+		<dict>
+			<key>Track ID</key><integer>10288</integer>
+			<key>Name</key><string>Seeking New Laws</string>
+			<key>Artist</key><string>Richard Feynman</string>
+			<key>Album</key><string>The Character of Physical Law</string>
+			<key>Genre</key><string>Science</string>
+			<key>Kind</key><string>MPEG-4 video file</string>
+			<key>Size</key><integer>170712274</integer>
+			<key>Total Time</key><integer>3476077</integer>
+			<key>Track Number</key><integer>7</integer>
+			<key>Track Count</key><integer>7</integer>
+			<key>Year</key><integer>1964</integer>
+			<key>Date Modified</key><date>2013-01-24T23:00:17Z</date>
+			<key>Date Added</key><date>2012-11-24T17:14:51Z</date>
+			<key>Bit Rate</key><integer>93</integer>
+			<key>Comments</key><string>The Messenger Lectures</string>
+			<key>Play Count</key><integer>6</integer>
+			<key>Play Date</key><integer>3449183546</integer>
+			<key>Play Date UTC</key><date>2013-04-19T01:32:26Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Series</key><string>The Character of Physical Law</string>
+			<key>Episode</key><string>7</string>
+			<key>Episode Order</key><integer>7</integer>
+			<key>Sort Album</key><string>Character of Physical Law</string>
+			<key>Sort Series</key><string>Character of Physical Law</string>
+			<key>Persistent ID</key><string>D57A09957525EC4D</string>
+			<key>Track Type</key><string>File</string>
+			<key>Has Video</key><true/>
+			<key>HD</key><false/>
+			<key>Video Width</key><integer>470</integer>
+			<key>Video Height</key><integer>360</integer>
+			<key>TV Show</key><true/>
+			<key>Location</key><string>file://localhost/Users/shuckster/Music/iTunes/iTunes%20Media/TV%20Shows/The%20Character%20of%20Physical%20Law/07%20Seeking%20New%20Laws.mp4</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+	</dict>
+	<key>Playlists</key>
+	<array>
+		<dict>
+			<key>Name</key><string>Richard Feynman - The Character of Physical Law</string>
+			<key>Playlist ID</key><integer>46641</integer>
+			<key>Playlist Persistent ID</key><string>9C436A52AEB989AF</string>
+			<key>All Items</key><true/>
+			<key>Playlist Items</key>
+			<array>
+				<dict>
+					<key>Track ID</key><integer>10276</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>10278</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>10280</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>10282</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>10284</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>10286</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>10288</integer>
+				</dict>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>

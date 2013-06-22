@@ -2,8 +2,9 @@
 /*
   iTunes XML PhP Parser for PHP 5
   Copyright (C) 2013 Conan Theobald [http://github.com/shuckster]
-  version: 1.2
+  version: 1.3
   	Changes:
+  		* 1.3: New example, delete old/deprecated stuff
   		* 1.2: Now a class, improved sort-method
   		* 1.1: Type-cast integers and booleans
 
