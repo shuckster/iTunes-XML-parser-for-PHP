@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Major Version</key><integer>1</integer>
+	<key>Minor Version</key><integer>1</integer>
+	<key>Application Version</key><string>4.2</string>
+	<key>Music Folder</key><string>file://localhost/C:/media/</string>
+	<key>Tracks</key>
+	<dict>
+		<key>85</key>
+		<dict>
+			<key>Track ID</key><integer>85</integer>
+			<key>Name</key><string>Harder, Better, Faster, Stronger</string>
+			<key>Artist</key><string>Daft Punk</string>
+			<key>Album</key><string>Discovery</string>
+			<key>Genre</key><string>Techno</string>
+			<key>Kind</key><string>MPEG audio file</string>
+			<key>Size</key><integer>5547929</integer>
+			<key>Total Time</key><integer>224313</integer>
+			<key>Track Number</key><integer>4</integer>
+			<key>Date Modified</key><date>2003-11-28T19:46:15Z</date>
+			<key>Date Added</key><date>2003-11-11T06:38:26Z</date>
+			<key>Bit Rate</key><integer>192</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Play Count</key><integer>12</integer>
+			<key>Play Date</key><integer>-1139618493</integer>
+			<key>Play Date UTC</key><date>2003-12-27T13:46:43Z</date>
+			<key>Rating</key><integer>100</integer>
+			<key>Normalization</key><integer>2781</integer>
+			<key>Location</key><string>file://localhost/C:/media/Daft%20Punk/Discovery/04%20Harder,%20Better,%20Faster,%20Stronger.MP3/</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+		<key>229</key>
+		<dict>
+			<key>Track ID</key><integer>229</integer>
+			<key>Name</key><string>AUDIENCE "Keith Litman's Radio</string>
+			<key>Artist</key><string>Ayumi Hamasaki</string>
+			<key>Album</key><string>ayu-mi-x III Non-Stop Mega Mix</string>
+			<key>Genre</key><string>Techno</string>
+			<key>Kind</key><string>MPEG audio file</string>
+			<key>Size</key><integer>4633640</integer>
+			<key>Total Time</key><integer>289541</integer>
+			<key>Start Time</key><integer>100000</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>2</integer>
+			<key>Track Number</key><integer>2</integer>
+			<key>Date Modified</key><date>2003-11-28T20:37:41Z</date>
+			<key>Date Added</key><date>2003-11-11T06:38:29Z</date>
+			<key>Bit Rate</key><integer>128</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Play Count</key><integer>4</integer>
+			<key>Play Date</key><integer>-1139637772</integer>
+			<key>Play Date UTC</key><date>2003-12-27T08:25:24Z</date>
+			<key>Rating</key><integer>100</integer>
+			<key>Normalization</key><integer>3402</integer>
+			<key>Compilation</key><true/>
+			<key>Location</key><string>file://localhost/C:/media/Compilations/ayu-mi-x%20III%20Non-Stop%20Mega%20Mix/1-02%20AUDIENCE%20_Keith%20Litman's%20Radio.MP3/</string>
+			<key>File Folder Count</key><integer>4</integer>
+			<key>Library Folder Count</key><integer>1</integer>
+		</dict>
+	</dict>
+	<key>Playlists</key>
+	<array>
+		<dict>
+			<key>Name</key><string>Good Techno</string>
+			<key>Playlist ID</key><integer>13137</integer>
+			<key>Playlist Persistent ID</key><string>5BA0739B9C3DFCC3</string>
+			<key>All Items</key><true/>
+			<key>Playlist Items</key>
+			<array>
+				<dict>
+					<key>Track ID</key><integer>229</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>85</integer>
+				</dict>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>
