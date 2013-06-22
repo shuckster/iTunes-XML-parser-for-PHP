@@ -230,11 +230,32 @@ class iTunesXMLParser {
 				break;
 
 				default:
-					if ( 'descending' === $direction ) {
-						return strcasecmp( $left, $right );
+
+					$rx_date = '/^\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}(Z|\+\d{2}\:\d{2})$/';
+
+					// Do a date-comparison
+					if ( preg_match( $rx_date, $left ) && preg_match( $rx_date, $right ) ) {
+
+						$left = strtotime( $left );
+						$right = strtotime( $right );
+
+						if ( 'descending' === $direction ) {
+							return $left === $right ? 0 : ( $left > $right ? -1 : 1 );
+						}
+						else {
+							return $left === $right ? 0 : ( $right > $left ? -1 : 1 );
+						}
+
 					}
+
+					// Default to a string comparison
 					else {
-						return strcasecmp( $right, $left );
+						if ( 'descending' === $direction ) {
+							return strcasecmp( $left, $right );
+						}
+						else {
+							return strcasecmp( $right, $left );
+						}
 					}
 
 			}
