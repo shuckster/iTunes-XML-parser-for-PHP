@@ -37,8 +37,8 @@
 */
 
 // pass the $filename of the xml file you want to parse
-// [optional] $sort_field = can be set to "Album", "Rating", etc...  left alone will not sort the list
-// [optional] $sort_direction = "up" or "down"
+// [optional] $sort_field = can be set to 'Album', 'Rating', etc...  left alone will not sort the list
+// [optional] $sort_direction = 'up' or 'down'
 //
 // the function will return an array of songs
 // each song is an array of variables that makes sense
@@ -96,8 +96,12 @@ Array (
 		)
 }
 */
-function iTunesXmlParser($filename, $sort_field=NULL, $sort_direction="up")
-{
+
+$g_ITX_field = NULL;
+$g_ITX_direction = NULL;
+
+function iTunesXmlParser( $filename, $sort_field = NULL, $sort_direction = 'up' ) {
+
 	// save the input in global variables for the sort function
 	global $g_ITX_field, $g_ITX_direction;
 	$g_ITX_field = $sort_field;
@@ -107,27 +111,20 @@ function iTunesXmlParser($filename, $sort_field=NULL, $sort_direction="up")
 	$songs = array();
 	$xml = NULL; // parsed XML
 
-	// read the file into $xml first
-	/*ob_start();
-		readfile($filename);
-		$xml = ob_get_contents();
-	ob_end_clean();*/
-
-	// open the xml document in the DOM
+	// open the XML document in the DOM
 	$dom = new DomDocument();
-	if (!$dom->load($filename))
-		die("Could not parse iTunes XML file: ".$filename);
+	if ( !$dom->load( $filename ) ) {
+		die( 'Could not parse iTunes XML file: ' . $filename );
+	}
 
 	// get the root element
 	$root = $dom->documentElement;
 
-	// yeah "dict" means everything, playlist, and song that makes sense... NOT
-	// find the first "dict"
+	// yeah 'dict' means everything, playlist, and song that makes sense... NOT
+	// find the first 'dict'
 	$children = $root->childNodes;
-	foreach ($children as $child)
-	{
-		if ($child->nodeName=="dict")
-		{
+	foreach ( $children as $child ) {
+		if ( 'dict' === $child->nodeName ) {
 			$root = $child;
 			break;
 		}
@@ -135,10 +132,8 @@ function iTunesXmlParser($filename, $sort_field=NULL, $sort_direction="up")
 
 	// do that again, and find the second inner dict
 	$children = $root->childNodes;
-	foreach ($children as $child)
-	{
-		if ($child->nodeName=="dict")
-		{
+	foreach ( $children as $child ) {
+		if ( 'dict' === $child->nodeName ) {
 			$root = $child;
 			break;
 		}
@@ -146,82 +141,87 @@ function iTunesXmlParser($filename, $sort_field=NULL, $sort_direction="up")
 
 	// now go through all the child elements
 	$children = $root->childNodes;
-	foreach ($children as $child)
-	{
+	foreach ( $children as $child ) {
+
 		// all the sub dicts from here on should be songs
-		if ($child->nodeName=="dict")
-		{
+		if ( 'dict' === $child->nodeName ) {
 			$song = NULL;
 
 			// get all the elements
 			$elements = $child->childNodes;
-			for ($i = 0; $i < $elements->length; $i++)
-			{
+
+			for ( $i = 0; $i < $elements->length; $i++ ) {
+
 				// alright whomever wrote this xml file was smoking something serious
 				// in normal XML documents we would do:
 				//  <artist>Daft Punk</artist>
 				// but in Apple iTunes bong land we do:
 				//  <key>Artist</key><string>Daft Punk</string>
 
-				if ($elements->item($i)->nodeName=="key")
-				{
+				if ( 'key' === $elements->item( $i )->nodeName ) {
+
 					// so I'm just going to expect that i++ (<string>, <int>, etc...) is always going to be there,
 					//  if the key's name is <key>
 					//  instead of doing some error checking here to make sure there are matching values to keys
-					$key = $elements->item($i)->textContent;
+					$key = $elements->item( $i )->textContent;
 					$i++;
 
-					switch ( $elements->item($i)->nodeName ) {
-						case "true":
-						case "false":
-							$value = "true" == $elements->item($i)->nodeName;
+					switch ( $elements->item( $i )->nodeName ) {
+						case 'true':
+						case 'false':
+							$value = 'true' === $elements->item( $i )->nodeName;
 						break;
 
-						case "integer":
-							$value = (int) $elements->item($i)->textContent;
+						case 'integer':
+							$value = (int) $elements->item( $i )->textContent;
 						break;
 
 						default:
-							$value = $elements->item($i)->textContent;
+							$value = $elements->item( $i )->textContent;
 					}
 
-					$song[$key]=$value;
+					$song[ $key ] = $value;
 				}
 			}
 
 			// save the song
-			if ($song)
+			if ( $song ) {
 				$songs[] = $song;
+			}
+
 		}
+
 	}
 
 	// now sort the songs
-	// $sort_field=NULL, $sort_direction="up"
-	if ($sort_field)
-	{
-		uasort($songs, "iTunesXmlSongSort");
+	// $sort_field=NULL, $sort_direction='up'
+	if ( $sort_field ) {
+		uasort( $songs, 'iTunesXmlSongSort' );
 	}
 
 	return $songs;
+
 }
 
-$g_ITX_field = NULL;
-$g_ITX_direction = NULL;
 // to be used with the uasort() array function in PHP
-function iTunesXmlSongSort($left, $right)
-{
+function iTunesXmlSongSort( $left, $right ) {
+
 	global $g_ITX_field, $g_ITX_direction;
 
 	// return the strcmp() of the two fields
-	if (isset($left[$g_ITX_field])&&isset($right[$g_ITX_field]))
-	{
-		if (strcasecmp($g_ITX_direction, "up"))
-			return strcasecmp($left[$g_ITX_field],$right[$g_ITX_field]);
-		else
-			return strcasecmp($right[$g_ITX_field],$left[$g_ITX_field]);
+	if ( isset( $left[ $g_ITX_field ] ) && isset( $right[ $g_ITX_field ] ) ) {
+		if ( strcasecmp( $g_ITX_direction, 'up') ) {
+			return strcasecmp( $left[ $g_ITX_field ], $right[ $g_ITX_field ] );
+		}
+		else{
+			return strcasecmp( $right[ $g_ITX_field ], $left[ $g_ITX_field ] );
+		}
 	}
-	elseif (isset($left[$g_ITX_field]))
+	elseif ( isset( $left[ $g_ITX_field ] ) ) {
 		return -1;
-	else
+	}
+	else {
 		return 1;
+	}
+
 }
