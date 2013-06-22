@@ -1,6 +1,6 @@
 <?php
 /*
-  Example for using iTunes XML PhP Parser for PHP 5
+  Example for using iTunes XML parser for PHP
   Copyright (C) 2013 Conan Theobald [http://github.com/shuckster]
   version: 1.3
   	Changes:
