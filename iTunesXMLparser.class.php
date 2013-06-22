@@ -141,7 +141,7 @@ class iTunesXMLParser {
 		// Loop through the tracks
 		foreach ( $tracks_node->childNodes as $child ) {
 
-			// all the sub dicts from here on should be songs
+			// All the sub dicts from here on should be tracks
 			if ( 'dict' === $child->nodeName ) {
 				$track = NULL;
 
