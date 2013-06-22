@@ -2,9 +2,10 @@
 /*
   iTunes XML PhP Parser for PHP 5
   Copyright (C) 2013 Conan Theobald [http://github.com/shuckster]
-  version: 1.1
+  version: 1.2
   	Changes:
-  		* Type-cast integers and booleans
+  		* 1.2: Now a class, improved sort-method
+  		* 1.1: Type-cast integers and booleans
 
   based on:
 
@@ -97,131 +98,156 @@ Array (
 }
 */
 
-$g_ITX_field = NULL;
-$g_ITX_direction = NULL;
+class iTunesXMLParser {
 
-function iTunesXmlParser( $filename, $sort_field = NULL, $sort_direction = 'up' ) {
+	public $file_name = '';
+	public $tracks = array();
 
-	// save the input in global variables for the sort function
-	global $g_ITX_field, $g_ITX_direction;
-	$g_ITX_field = $sort_field;
-	$g_ITX_direction = $sort_direction;
+	public $sort_field = NULL;
+	public $sort_direction = 'ascending';
 
-	// init main variables
-	$songs = array();
-	$xml = NULL; // parsed XML
+	public function open( $path ) {
 
-	// open the XML document in the DOM
-	$dom = new DomDocument();
-	if ( !$dom->load( $filename ) ) {
-		die( 'Could not parse iTunes XML file: ' . $filename );
-	}
-
-	// get the root element
-	$root = $dom->documentElement;
-
-	// yeah 'dict' means everything, playlist, and song that makes sense... NOT
-	// find the first 'dict'
-	$children = $root->childNodes;
-	foreach ( $children as $child ) {
-		if ( 'dict' === $child->nodeName ) {
-			$root = $child;
-			break;
+		if ( !file_exists( $path ) ) {
+			die( 'iTunes XML file not found: ' . $path );
 		}
-	}
 
-	// do that again, and find the second inner dict
-	$children = $root->childNodes;
-	foreach ( $children as $child ) {
-		if ( 'dict' === $child->nodeName ) {
-			$root = $child;
-			break;
+		// Open the XML document in the DOM
+		$dom = new DomDocument();
+		if ( !$dom->load( $path ) ) {
+			die( 'Could not parse iTunes XML file: ' . $path );
 		}
+
+		// Get the root element <plist>
+		$plist_node = $dom->documentElement;
+		$version_node = NULL;
+		$tracks_node = array();
+
+		// First <dict> contains version-info + tracks-node
+		foreach ( $plist_node->childNodes as $child ) {
+			if ( 'dict' === $child->nodeName ) {
+				$version_node = $child;
+				break;
+			}
+		}
+
+		// <dict> in the version-node contains tracks
+		foreach ( $version_node->childNodes as $child ) {
+			if ( 'dict' === $child->nodeName ) {
+				$tracks_node = $child;
+				break;
+			}
+		}
+
+		// Loop through the tracks
+		foreach ( $tracks_node->childNodes as $child ) {
+
+			// all the sub dicts from here on should be songs
+			if ( 'dict' === $child->nodeName ) {
+				$track = NULL;
+
+				// Get track properties
+				$properties = $child->childNodes;
+				for ( $prop_index = 0, $prop_length = $properties->length; $prop_index < $prop_length; $prop_index++ ) {
+
+					$prop = $properties->item( $prop_index );
+
+					// Ordering is important in plist files; key -> value is part of the convention
+
+					if ( 'key' === $prop->nodeName ) {
+
+						// <key> $prop_key </key>
+						$prop_key = $prop->textContent;
+
+						// <value> $prop_value </value>
+						$prop = $properties->item( ++$prop_index );
+
+						switch ( $prop->nodeName ) {
+							case 'true':
+							case 'false':
+								$prop_value = 'true' === $prop->nodeName;
+							break;
+
+							case 'integer':
+								$prop_value = (int) $prop->textContent;
+							break;
+
+							default:
+								$prop_value = $prop->textContent;
+						}
+
+						$track[ $prop_key ] = $prop_value;
+					}
+				}
+
+				// Save the track
+				if ( $track ) {
+					$tracks[] = $track;
+				}
+
+			}
+
+		}
+
+		// Sort the tracks
+		if ( $this->sort_field ) {
+			uasort( $tracks, array( $this, 'sort' ) );
+		}
+
+		// Fell-through: Set public vars to successful parse-data
+		$this->file_name = $path;
+		$this->tracks = $tracks;
+
+		return $tracks;
+
 	}
 
-	// now go through all the child elements
-	$children = $root->childNodes;
-	foreach ( $children as $child ) {
+	// To be used with the uasort() array function
+	protected function sort( $left, $right ) {
 
-		// all the sub dicts from here on should be songs
-		if ( 'dict' === $child->nodeName ) {
-			$song = NULL;
+		$field = $this->sort_field;
+		$direction = $this->sort_direction;
 
-			// get all the elements
-			$elements = $child->childNodes;
+		// Return the strcmp() of the two fields
+		if ( isset( $left[ $field ] ) && isset( $right[ $field ] ) ) {
 
-			for ( $i = 0; $i < $elements->length; $i++ ) {
+			$left = $left[ $field ];
+			$right = $right[ $field ];
 
-				// alright whomever wrote this xml file was smoking something serious
-				// in normal XML documents we would do:
-				//  <artist>Daft Punk</artist>
-				// but in Apple iTunes bong land we do:
-				//  <key>Artist</key><string>Daft Punk</string>
+			switch ( gettype( $left ) ) {
 
-				if ( 'key' === $elements->item( $i )->nodeName ) {
+				case 'boolean':
+					$left = (int) $left;
+					$right = (int) $right;
 
-					// so I'm just going to expect that i++ (<string>, <int>, etc...) is always going to be there,
-					//  if the key's name is <key>
-					//  instead of doing some error checking here to make sure there are matching values to keys
-					$key = $elements->item( $i )->textContent;
-					$i++;
+				case 'integer':
+				case 'double':
+					if ( 'descending' === $direction ) {
+						return $left === $right ? 0 : ( $left > $right ? -1 : 1 );
+					}
+					else {
+						return $left === $right ? 0 : ( $right > $left ? -1 : 1 );
+					}
+				break;
 
-					switch ( $elements->item( $i )->nodeName ) {
-						case 'true':
-						case 'false':
-							$value = 'true' === $elements->item( $i )->nodeName;
-						break;
-
-						case 'integer':
-							$value = (int) $elements->item( $i )->textContent;
-						break;
-
-						default:
-							$value = $elements->item( $i )->textContent;
+				default:
+					if ( 'descending' === $direction ) {
+						return strcasecmp( $left, $right );
+					}
+					else {
+						return strcasecmp( $right, $left );
 					}
 
-					$song[ $key ] = $value;
-				}
-			}
-
-			// save the song
-			if ( $song ) {
-				$songs[] = $song;
 			}
 
 		}
-
-	}
-
-	// now sort the songs
-	// $sort_field=NULL, $sort_direction='up'
-	if ( $sort_field ) {
-		uasort( $songs, 'iTunesXmlSongSort' );
-	}
-
-	return $songs;
-
-}
-
-// to be used with the uasort() array function in PHP
-function iTunesXmlSongSort( $left, $right ) {
-
-	global $g_ITX_field, $g_ITX_direction;
-
-	// return the strcmp() of the two fields
-	if ( isset( $left[ $g_ITX_field ] ) && isset( $right[ $g_ITX_field ] ) ) {
-		if ( strcasecmp( $g_ITX_direction, 'up') ) {
-			return strcasecmp( $left[ $g_ITX_field ], $right[ $g_ITX_field ] );
+		elseif ( isset( $left[ $field ] ) ) {
+			return -1;
 		}
-		else{
-			return strcasecmp( $right[ $g_ITX_field ], $left[ $g_ITX_field ] );
+		else {
+			return 1;
 		}
-	}
-	elseif ( isset( $left[ $g_ITX_field ] ) ) {
-		return -1;
-	}
-	else {
-		return 1;
+
 	}
 
 }
