@@ -5,9 +5,9 @@
   version: 1.4
     Changes:
       * 1.4: Parse info and playlists
-  		* 1.3: New example, delete old/deprecated stuff
-  		* 1.2: Now a class, improved sort-method
-  		* 1.1: Type-cast integers and booleans
+      * 1.3: New example, delete old/deprecated stuff
+      * 1.2: Now a class, improved sort-method
+      * 1.1: Type-cast integers and booleans
 
   based on:
 
