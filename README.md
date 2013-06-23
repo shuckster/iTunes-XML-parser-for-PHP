@@ -18,6 +18,25 @@ Supports sorting fields by string, number, and date.
 
 See [example.php](example.php) for a basic implementation.
 
+```php
+require_once 'iTunesXMLparser.class.php';
+
+$xml_path = 'iTunes playlist export.xml';
+
+$itunes = new iTunesXMLParser();
+$itunes->sort_field = 'Track ID';
+$itunes->sort_direction = 'ascending';
+$itunes->open( $xml_path );
+
+/*
+These variables are now available. print_r to see what's in 'em:
+
+$itunes->info;
+$itunes->tracks;
+$itunes->playlists;
+*/
+```
+
 ## Credits
 
 Based on work by:

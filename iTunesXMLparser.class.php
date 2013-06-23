@@ -2,8 +2,9 @@
 /*
   iTunes XML parser for PHP
   Copyright (C) 2013 Conan Theobald [http://github.com/shuckster]
-  version: 1.3
+  version: 1.4
   	Changes:
+  		* 1.4: Parse info and playlists
   		* 1.3: New example, delete old/deprecated stuff
   		* 1.2: Now a class, improved sort-method
   		* 1.1: Type-cast integers and booleans
@@ -38,72 +39,20 @@
 
 */
 
-/*
-  See "example.php" for usage.
-
-  Example output:
-
-	Array (
-		[0] => Array
-			(
-				[Track ID] => 34
-				[Name] => depeche mode gameboy megamix!
-				[Artist] => nullsleep
-				[Composer] => nullsleep
-				[Album] => www.nullsleep.com
-				[Genre] => Electronic
-				[Kind] => MPEG audio file
-				[Size] => 13901952
-				[Total Time] => 868780
-				[Year] => 2002
-				[Date Modified] => 2002-12-17T10:24:18Z
-				[Date Added] => 2003-11-11T06:38:24Z
-				[Bit Rate] => 128
-				[Sample Rate] => 44100
-				[Comments] => www.8bitpeoples.com 1. enjoy the silence 2. photographic 3. new life 4. everything counts
-				[Play Count] => 3
-				[Play Date] => -1142117754
-				[Play Date UTC] => 2003-11-28T15:32:22Z
-				[Rating] => 80
-				[Normalization] => 976
-				[Location] => file://localhost/C:/media/nullsleep/www.nullsleep.com/depeche%20mode%20gameboy%20megamix!.mp3/
-				[File Folder Count] => 4
-				[Library Folder Count] => 1
-			)
-	    [1] => Array
-			(
-				[Track ID] => 65
-				[Name] => Daftendirekt
-				[Artist] => Daft Punk
-				[Album] => Homework
-				[Genre] => Electronic
-				[Kind] => MPEG audio file
-				[Size] => 4098756
-				[Total Time] => 164649
-				[Track Number] => 1
-				[Date Modified] => 2003-11-28T19:45:05Z
-				[Date Added] => 2003-11-11T06:38:25Z
-				[Bit Rate] => 192
-				[Sample Rate] => 44100
-				[Play Count] => 5
-				[Play Date] => -1142119790
-				[Play Date UTC] => 2003-11-28T14:58:26Z
-				[Rating] => 80
-				[Normalization] => 1414
-				[Location] => file://localhost/C:/media/Daft%20Punk/Homework/01%20Daftendirekt.MP3/
-				[File Folder Count] => 4
-				[Library Folder Count] => 1
-			)
-	}
-*/
-
 class iTunesXMLParser {
 
 	public $file_name = '';
+
+	public $infos = array();
 	public $tracks = array();
+	public $playlists = array();
 
 	public $sort_field = NULL;
 	public $sort_direction = 'ascending';
+
+	protected $plist_node = NULL;
+	protected $tracks_node = NULL;
+	protected $playlists_node = NULL;
 
 	public function open( $path ) {
 
@@ -119,31 +68,115 @@ class iTunesXMLParser {
 
 		// Get the root element <plist>
 		$plist_node = $dom->documentElement;
-		$version_node = NULL;
-		$tracks_node = array();
+		$infos_node = NULL;
+		$tracks_node = NULL;
+		$playlists_node = NULL;
 
 		// First <dict> contains version-info + tracks-node
 		foreach ( $plist_node->childNodes as $child ) {
 			if ( 'dict' === $child->nodeName ) {
-				$version_node = $child;
+				$infos_node = $child;
 				break;
 			}
 		}
 
-		// <dict> in the version-node contains tracks
-		foreach ( $version_node->childNodes as $child ) {
+		// <dict> in the version-node contains the tracks, <array> contains the playlists
+		$break_out = false;
+		foreach ( $infos_node->childNodes as $child ) {
+
 			if ( 'dict' === $child->nodeName ) {
 				$tracks_node = $child;
-				break;
+				if ( $break_out ) {
+					break;
+				}
+				$break_out = true;
 			}
+
+			if ( 'array' === $child->nodeName ) {
+				$playlists_node = $child;
+				if ( $break_out ) {
+					break;
+				}
+				$break_out = true;
+			}
+
 		}
 
-		// Loop through the tracks
-		foreach ( $tracks_node->childNodes as $child ) {
+		// Fell-through: Set public vars to successful parse-data
+		$this->file_name = $path;
 
-			// All the sub dicts from here on should be tracks
+		$this->plist_node = $plist_node;
+		$this->tracks_node = $tracks_node;
+		$this->playlists_node = $playlists_node;
+
+		$this->parseInfos();
+		$this->parseTracks();
+		$this->parsePlaylists();
+
+	}
+
+	protected function parseInfos() {
+
+		$infos = $this->parseDict( $this->plist_node, NULL,  array( 'dict', 'array' ) );
+
+		if ( NULL !== $infos ) {
+			$this->infos = $infos[ 0 ];
+		}
+
+		return $infos;
+
+	}
+
+	protected function parseTracks() {
+
+		$tracks = $this->parseDict( $this->tracks_node, 'Track ID' );
+
+		if ( NULL !== $tracks ) {
+			$this->tracks = $tracks;
+		}
+
+		return $tracks;
+
+	}
+
+	protected function parsePlaylists() {
+
+		$playlists = $this->parseDict( $this->playlists_node, 'Playlist ID' );
+
+		if ( NULL !== $playlists ) {
+
+			// Match playlist-items to actual tracks
+			foreach ( $playlists as &$playlist ) {
+				$new_items = array();
+
+				if ( isset( $playlist[ 'Playlist Items' ] ) ) {
+					foreach ( $playlist[ 'Playlist Items' ] as $item ) {
+						$track_id = $item[ 'Track ID' ];
+						$new_items[] = $this->tracks[ $track_id ];
+					}
+
+					$playlist[ 'Playlist Items' ] = $new_items;
+				}
+
+			}
+
+			$this->playlists = $playlists;
+		}
+
+		return $playlists;
+
+	}
+
+	protected function parseDict( $baseNode, $primary_key = NULL, $ignore_nodes = array() ) {
+
+		$dicts = array();
+
+		// Loop through the playlists
+		foreach ( $baseNode->childNodes as $child ) {
+
+			// all the sub dicts from here on should be songs
 			if ( 'dict' === $child->nodeName ) {
-				$track = NULL;
+				$dict = NULL;
 
 				// Get track properties
 				$properties = $child->childNodes;
@@ -152,36 +185,54 @@ class iTunesXMLParser {
 					$prop = $properties->item( $prop_index );
 
 					// Ordering is important in plist files; key -> value is part of the convention
-
 					if ( 'key' === $prop->nodeName ) {
 
 						// <key> $prop_key </key>
 						$prop_key = $prop->textContent;
 
 						// <value> $prop_value </value>
-						$prop = $properties->item( ++$prop_index );
+						do {
+							$prop = $properties->item( ++$prop_index );
+						} while ( '#text' === $prop->nodeName );
 
-						switch ( $prop->nodeName ) {
-							case 'true':
-							case 'false':
-								$prop_value = 'true' === $prop->nodeName;
-							break;
+						$ignore_node = in_array( $prop->nodeName, $ignore_nodes );
 
-							case 'integer':
-								$prop_value = (int) $prop->textContent;
-							break;
+						if ( !$ignore_node ) {
 
-							default:
-								$prop_value = $prop->textContent;
+							switch ( $prop->nodeName ) {
+								case 'array':
+									$prop_value = $this->parseDict( $prop );
+								break;
+
+								case 'true':
+								case 'false':
+									$prop_value = 'true' === $prop->nodeName;
+								break;
+
+								case 'integer':
+									$prop_value = (int) $prop->textContent;
+								break;
+
+								default:
+									$prop_value = $prop->textContent;
+							}
+
+							$dict[ $prop_key ] = $prop_value;
+
 						}
 
-						$track[ $prop_key ] = $prop_value;
 					}
+
 				}
 
 				// Save the track
-				if ( $track ) {
-					$tracks[] = $track;
+				if ( $dict ) {
+					if ( NULL !== $primary_key && isset( $dict[ $primary_key ] ) ) {
+						$dicts[ $dict[ $primary_key ] ] = $dict;
+					}
+					else {
+						$dicts[] = $dict;
+					}
 				}
 
 			}
@@ -190,14 +241,10 @@ class iTunesXMLParser {
 
 		// Sort the tracks
 		if ( $this->sort_field ) {
-			uasort( $tracks, array( $this, 'sort' ) );
+			uasort( $dicts, array( $this, 'sort' ) );
 		}
 
-		// Fell-through: Set public vars to successful parse-data
-		$this->file_name = $path;
-		$this->tracks = $tracks;
-
-		return $tracks;
+		return $dicts;
 
 	}
 
@@ -231,9 +278,8 @@ class iTunesXMLParser {
 
 				default:
 
+					// Detect dates (ISO8601 based), convert to timestamps for comparison
 					$rx_date = '/^\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}(Z|\+\d{2}\:\d{2})$/';
-
-					// Do a date-comparison
 					if ( preg_match( $rx_date, $left ) && preg_match( $rx_date, $right ) ) {
 
 						$left = strtotime( $left );
