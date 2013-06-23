@@ -147,9 +147,10 @@ class iTunesXMLParser {
 
 			// Match playlist-items to actual tracks
 			foreach ( $playlists as &$playlist ) {
-				$new_items = array();
 
 				if ( isset( $playlist[ 'Playlist Items' ] ) ) {
+					$new_items = array();
+
 					foreach ( $playlist[ 'Playlist Items' ] as $item ) {
 						$track_id = $item[ 'Track ID' ];
 						$new_items[] = $this->tracks[ $track_id ];
