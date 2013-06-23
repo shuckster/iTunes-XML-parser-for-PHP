@@ -9,8 +9,10 @@ LGPL licensed: See [LICENSE](LICENSE)
 
 ## About
 
-A simple PHP class that will read an iTunes XML file and convert the tracks
-contained within into an array of objects.
+A simple PHP class that will read an iTunes XML file and convert the info,
+tracks and playlists contained within into an array of objects.
+
+Tracks are matched to playlist-items automatically.
 
 Supports sorting fields by string, number, and date.
 
