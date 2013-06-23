@@ -51,7 +51,7 @@ $itunes->open( $xml_path );
 /*
   These variables are now available. print_r to see what's in 'em:
 
-    $itunes->infos;
+    $itunes->info;
     $itunes->tracks;
     $itunes->playlists;
 */
@@ -65,5 +65,24 @@ foreach ( $itunes->tracks as $track ) {
 }
 
 print_r( $video );
+exit;
+
+/*
+ * JSON output example
+ */
+
+// JSBeautifier and options
+// Download from: https://github.com/einars/js-beautify/tree/attic-php/php
+
+require_once "jsbeautifier.php";
+
+$jsb = new JSBeautifier();
+$jsb_opts = new BeautifierOptions();
+$jsb_opts->indent_size = 1;
+$jsb_opts->indent_with_tabs = true;
+
+header('Content-type: application/json; charset=utf-8');
+echo $jsb->beautify( json_encode( $video ), $jsb_opts );
+exit;
 
 ?>

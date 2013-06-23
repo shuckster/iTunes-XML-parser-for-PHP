@@ -43,7 +43,7 @@ class iTunesXMLParser {
 
 	public $file_name = '';
 
-	public $infos = array();
+	public $info = NULL;
 	public $tracks = array();
 	public $playlists = array();
 
@@ -120,10 +120,10 @@ class iTunesXMLParser {
 		$infos = $this->parseDict( $this->plist_node, NULL,  array( 'dict', 'array' ) );
 
 		if ( NULL !== $infos ) {
-			$this->infos = $infos[ 0 ];
+			$this->info = $infos[ 0 ];
 		}
 
-		return $infos;
+		return $info;
 
 	}
 

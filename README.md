@@ -35,7 +35,7 @@ $itunes->open( $xml_path );
 /*
 	These variables are now available. print_r to see what's in 'em:
 
-		$itunes->infos;
+		$itunes->info;
 		$itunes->tracks;
 		$itunes->playlists;
 */
