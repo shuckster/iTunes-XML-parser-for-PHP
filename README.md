@@ -1,7 +1,7 @@
 iTunes XML parser for PHP
 ==========================
 
-#### A class to extract track-information from an iTunes XML file.
+#### A class to extract info, tracks and playlists from an iTunes XML file.
 
 Original code copyright (c) 2003 by [Robert A. Wallis](http://codetriangle.com/). Dicked around with in 2005 by [Peter Minarik](http://www.wirsindecht.org/), and in 2013 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk).
 
@@ -29,11 +29,11 @@ $itunes->sort_direction = 'ascending';
 $itunes->open( $xml_path );
 
 /*
-These variables are now available. print_r to see what's in 'em:
+	These variables are now available. print_r to see what's in 'em:
 
-$itunes->info;
-$itunes->tracks;
-$itunes->playlists;
+		$itunes->info;
+		$itunes->tracks;
+		$itunes->playlists;
 */
 ```
 
