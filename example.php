@@ -74,14 +74,14 @@ exit;
 // JSBeautifier and options
 // Download from: https://github.com/einars/js-beautify/tree/attic-php/php
 
-require_once "jsbeautifier.php";
+require_once 'jsbeautifier.php';
 
 $jsb = new JSBeautifier();
 $jsb_opts = new BeautifierOptions();
 $jsb_opts->indent_size = 1;
 $jsb_opts->indent_with_tabs = true;
 
-header('Content-type: application/json; charset=utf-8');
+header( 'Content-type: application/json; charset=utf-8' );
 echo $jsb->beautify( json_encode( $video ), $jsb_opts );
 exit;
 
