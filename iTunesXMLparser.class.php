@@ -216,6 +216,11 @@ class iTunesXMLParser {
 
 								default:
 									$prop_value = $prop->textContent;
+
+									if ( preg_match( '/^(Music Folder|Location)$/', $prop_key ) ) {
+										$prop_value = urldecode( stripslashes( $prop_value ) );
+									}
+
 							}
 
 							$dict[ $prop_key ] = $prop_value;
