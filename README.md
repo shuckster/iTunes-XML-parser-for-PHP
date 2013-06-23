@@ -42,7 +42,7 @@ $itunes->open( $xml_path );
 ```
 
 For conversion to JSON, I recommend using the `jsbeautifier.org`
-[PHP port](https://github.com/einars/js-beautify/tree/attic-php/php):
+[PHP port](https://github.com/einars/js-beautify/tree/attic-php/php).
 
 ## Credits
 
