@@ -123,7 +123,7 @@ class iTunesXMLParser {
 			$this->info = $infos[ 0 ];
 		}
 
-		return $info;
+		return $infos;
 
 	}
 
