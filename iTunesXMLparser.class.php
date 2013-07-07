@@ -116,7 +116,7 @@ class iTunesXMLParser {
 	}
 
 	// To be used with the uasort() array function
-	public function sort( $left, $right ) {
+	protected function sort( $left, $right ) {
 
 		$field = $this->sort_field;
 		$direction = $this->sort_direction;
