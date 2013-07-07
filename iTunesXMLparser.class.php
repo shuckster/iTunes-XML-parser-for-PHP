@@ -2,8 +2,9 @@
 /*
   iTunes XML parser for PHP
   Copyright (C) 2013 Conan Theobald [http://github.com/shuckster]
-  version: 1.4
+  version: 1.5
   	Changes:
+  		* 1.5: Simplify parseDict, API changes
 		* 1.4: Parse info and playlists
 		* 1.3: New example, delete old/deprecated stuff
 		* 1.2: Now a class, improved sort-method
@@ -42,220 +43,80 @@
 class iTunesXMLParser {
 
 	public $file_name = '';
-
-	public $info = NULL;
-	public $tracks = array();
-	public $playlists = array();
+	public $data = NULL;
 
 	public $sort_field = NULL;
 	public $sort_direction = 'ascending';
 
-	protected $plist_node = NULL;
-	protected $tracks_node = NULL;
-	protected $playlists_node = NULL;
-
-	public function open( $path ) {
-
-		if ( !file_exists( $path ) ) {
-			die( 'iTunes XML file not found: ' . $path );
-		}
+	protected function openFileOrSource( $file = NULL, $source = NULL) {
 
 		// Open the XML document in the DOM
 		$dom = new DomDocument();
-		if ( !$dom->load( $path ) ) {
-			die( 'Could not parse iTunes XML file: ' . $path );
+
+		if ( NULL !== $file ) {
+			if ( !file_exists( $file ) ) {
+				die( 'iTunes XML file not found: ' . $file );
+			}
+			if ( !$dom->load( $file ) ) {
+				die( 'Could not parse iTunes XML file: ' . $file );
+			}
+		}
+		else if ( NULL !== $source ) {
+			if ( !$dom->loadXML( $source ) ) {
+				die( 'Could not parse XML source: ' . $source );
+			}
 		}
 
 		// Get the root element <plist>
 		$plist_node = $dom->documentElement;
-		$infos_node = NULL;
-		$tracks_node = NULL;
-		$playlists_node = NULL;
+		$first_dict_node = NULL;
 
 		// First <dict> contains version-info + tracks-node
 		foreach ( $plist_node->childNodes as $child ) {
 			if ( 'dict' === $child->nodeName ) {
-				$infos_node = $child;
+				$first_dict_node = $child;
 				break;
 			}
 		}
 
-		// <dict> in the version-node contains the tracks, <array> contains the playlists
-		$break_out = false;
-		foreach ( $infos_node->childNodes as $child ) {
-
-			if ( 'dict' === $child->nodeName ) {
-				$tracks_node = $child;
-				if ( $break_out ) {
-					break;
-				}
-				$break_out = true;
-			}
-
-			if ( 'array' === $child->nodeName ) {
-				$playlists_node = $child;
-				if ( $break_out ) {
-					break;
-				}
-				$break_out = true;
-			}
-
-		}
-
-		// Fell-through: Set public vars to successful parse-data
-		$this->file_name = $path;
-
-		$this->plist_node = $plist_node;
-		$this->tracks_node = $tracks_node;
-		$this->playlists_node = $playlists_node;
-
-		$this->parseInfos();
-		$this->parseTracks();
-		$this->parsePlaylists();
+		// Fell-through: Parse
+		$this->file_name = $file;
+		$this->data = $this->parseDict( $first_dict_node, NULL );
 
 	}
 
-	protected function parseInfos() {
-
-		$infos = $this->parseDict( $this->plist_node, NULL,  array( 'dict', 'array' ) );
-
-		if ( NULL !== $infos ) {
-			$this->info = $infos[ 0 ];
-		}
-
-		return $infos;
-
+	public function parse( $source ) {
+		return $this->openFileOrSource( NULL, $source );
 	}
 
-	protected function parseTracks() {
-
-		$tracks = $this->parseDict( $this->tracks_node, 'Track ID' );
-
-		if ( NULL !== $tracks ) {
-			$this->tracks = $tracks;
-		}
-
-		return $tracks;
-
+	public function open( $file ) {
+		return $this->openFileOrSource( $file );
 	}
 
-	protected function parsePlaylists() {
+	public function processPlaylists() {
 
-		$playlists = $this->parseDict( $this->playlists_node, 'Playlist ID' );
+		if ( NULL !== $this->data && isset( $this->data[ 'Playlists' ] ) ) {
+			$tracks = (array) $this->data[ 'Tracks' ];
 
-		if ( NULL !== $playlists ) {
+			foreach( $this->data[ 'Playlists' ] as &$playlist ) {
+				$new_items = array();
 
-			// Match playlist-items to actual tracks
-			foreach ( $playlists as &$playlist ) {
-
-				if ( isset( $playlist[ 'Playlist Items' ] ) ) {
-					$new_items = array();
-
-					foreach ( $playlist[ 'Playlist Items' ] as $item ) {
-						$track_id = $item[ 'Track ID' ];
-						$new_items[] = $this->tracks[ $track_id ];
-					}
-
-					$playlist[ 'Playlist Items' ] = $new_items;
+				foreach ( $playlist->{ 'Playlist Items' } as $item ) {
+					$track_id = $item->{ 'Track ID' };
+					$new_items[] = $tracks[ $track_id ];
 				}
 
+				$playlist->{ 'Playlist Items' } = $new_items;
 			}
-
-			$this->playlists = $playlists;
 		}
-
-		return $playlists;
-
-	}
-
-	protected function parseDict( $baseNode, $primary_key = NULL, $ignore_nodes = array() ) {
-
-		$dicts = array();
-
-		// Loop through the playlists
-		foreach ( $baseNode->childNodes as $child ) {
-
-			// all the sub dicts from here on should be songs
-			if ( 'dict' === $child->nodeName ) {
-				$dict = NULL;
-
-				// Get track properties
-				$properties = $child->childNodes;
-				for ( $prop_index = 0, $prop_length = $properties->length; $prop_index < $prop_length; $prop_index++ ) {
-
-					$prop = $properties->item( $prop_index );
-
-					// Ordering is important in plist files; key -> value is part of the convention
-					if ( 'key' === $prop->nodeName ) {
-
-						// <key> $prop_key </key>
-						$prop_key = $prop->textContent;
-
-						// <value> $prop_value </value>
-						do {
-							$prop = $properties->item( ++$prop_index );
-						} while ( '#text' === $prop->nodeName );
-
-						$ignore_node = in_array( $prop->nodeName, $ignore_nodes );
-
-						if ( !$ignore_node ) {
-
-							switch ( $prop->nodeName ) {
-								case 'array':
-									$prop_value = $this->parseDict( $prop );
-								break;
-
-								case 'true':
-								case 'false':
-									$prop_value = 'true' === $prop->nodeName;
-								break;
-
-								case 'integer':
-									$prop_value = (int) $prop->textContent;
-								break;
-
-								default:
-									$prop_value = $prop->textContent;
-
-									if ( preg_match( '/^(Music Folder|Location)$/', $prop_key ) ) {
-										$prop_value = urldecode( stripslashes( $prop_value ) );
-									}
-
-							}
-
-							$dict[ $prop_key ] = $prop_value;
-
-						}
-
-					}
-
-				}
-
-				// Save the track
-				if ( $dict ) {
-					if ( NULL !== $primary_key && isset( $dict[ $primary_key ] ) ) {
-						$dicts[ $dict[ $primary_key ] ] = $dict;
-					}
-					else {
-						$dicts[] = $dict;
-					}
-				}
-
-			}
-
+		else {
+			die( 'No data to work with' );
 		}
-
-		// Sort the tracks
-		if ( $this->sort_field ) {
-			uasort( $dicts, array( $this, 'sort' ) );
-		}
-
-		return $dicts;
 
 	}
 
 	// To be used with the uasort() array function
-	protected function sort( $left, $right ) {
+	public function sort( $left, $right ) {
 
 		$field = $this->sort_field;
 		$direction = $this->sort_direction;
@@ -319,6 +180,77 @@ class iTunesXMLParser {
 		else {
 			return 1;
 		}
+
+	}
+
+	protected function parseDict( $baseNode ) {
+
+		$dicts = array();
+		$current_key = NULL;
+		$current_value = NULL;
+
+		foreach ( $baseNode->childNodes as $child ) {
+
+			$dict = NULL;
+
+			switch ( $child->nodeName ) {
+
+				case '#text':
+				break;
+
+				case 'key':
+					$current_key = $child->textContent;
+					$current_value = NULL;
+				break;
+
+				case 'array':
+					$current_value = $this->parseDict( $child );
+				break;
+
+				case 'dict':
+					$current_value = (object) $this->parseDict( $child );
+				break;
+
+				case 'true':
+				case 'false':
+					$current_value = 'true' === $child->nodeName;
+				break;
+
+				case 'integer':
+					$current_value = (int) $child->textContent;
+				break;
+
+				default:
+					$current_value = $child->textContent;
+
+					if ( preg_match( '/^(Music Folder|Location)$/', $current_key ) ) {
+						$current_value = urldecode( stripslashes( $current_value ) );
+					}
+
+			}
+
+			if ( NULL !== $current_value ) {
+
+				if ( 'array' === $baseNode->nodeName ) {
+					$dicts[] = $current_value;
+				}
+				else if ( NULL !== $current_key ) {
+					$dicts[ $current_key ] = $current_value;
+					$current_key = NULL;
+				}
+
+				$current_value = NULL;
+
+			}
+
+		}
+
+		// Sort the tracks
+		if ( $this->sort_field ) {
+			uasort( $dicts, array( $this, 'sort' ) );
+		}
+
+		return $dicts;
 
 	}
 

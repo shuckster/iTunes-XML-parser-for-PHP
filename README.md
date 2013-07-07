@@ -14,7 +14,8 @@ LGPL licensed: See [LICENSE](LICENSE)
 A simple PHP class that will read an iTunes XML file and convert the info,
 tracks and playlists contained within into an array of objects.
 
-Tracks are matched to playlist-items automatically.
+Tracks can be matched to playlist-items by running the `#processPlaylists()`
+method after opening your XML file.
 
 Supports sorting fields by string, number, and date.
 
@@ -33,12 +34,10 @@ $itunes->sort_direction = 'ascending';
 $itunes->open( $xml_path );
 
 /*
-	These variables are now available. print_r to see what's in 'em:
-
-		$itunes->info;
-		$itunes->tracks;
-		$itunes->playlists;
+  "$itunes->data" is now available. print_r to see what's inside:
+    print_r( $itunes->data );
 */
+
 ```
 
 For conversion to JSON, I recommend using the `jsbeautifier.org`

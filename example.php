@@ -2,8 +2,9 @@
 /*
   Example for using iTunes XML parser for PHP
   Copyright (C) 2013 Conan Theobald [http://github.com/shuckster]
-  version: 1.4
+  version: 1.5
     Changes:
+      * 1.5: Simplify parseDict, API changes
       * 1.4: Parse info and playlists
       * 1.3: New example, delete old/deprecated stuff
       * 1.2: Now a class, improved sort-method
@@ -49,17 +50,15 @@ $itunes->sort_direction = 'ascending';
 $itunes->open( $xml_path );
 
 /*
-  These variables are now available. print_r to see what's in 'em:
-
-    $itunes->info;
-    $itunes->tracks;
-    $itunes->playlists;
+  "$itunes->data" is now available. print_r to see what's inside:
+    print_r( $itunes->data );
 */
 
 // Find only videos (kind of useless, since the example XML only has video in it ;)
 $video = array();
-foreach ( $itunes->tracks as $track ) {
-	if ( isset( $track[ 'Has Video' ] ) && $track[ 'Has Video' ] && isset( $track[ 'Location' ] ) ) {
+$tracks = (array) $itunes->data[ 'Tracks' ];
+foreach ( $tracks as $track ) {
+	if ( isset( $track->{ 'Has Video' } ) && $track->{ 'Has Video' } && isset( $track->{ 'Location' } ) ) {
 		$video[] = $track;
 	}
 }
@@ -71,7 +70,7 @@ exit;
  * JSON output example
  */
 
-// JSBeautifier and options
+// JSBeautify and options
 // Download from: https://github.com/einars/js-beautify/tree/attic-php/php
 
 require_once 'jsbeautifier.php';
