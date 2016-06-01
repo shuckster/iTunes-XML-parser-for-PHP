@@ -95,24 +95,22 @@ class iTunesXMLParser {
 
 	public function processPlaylists() {
 
-		if ( NULL !== $this->data && isset( $this->data[ 'Playlists' ] ) ) {
-			$tracks = (array) $this->data[ 'Tracks' ];
-
-			foreach( $this->data[ 'Playlists' ] as &$playlist ) {
-				$new_items = array();
-
-				foreach ( $playlist->{ 'Playlist Items' } as $item ) {
-					$track_id = $item->{ 'Track ID' };
-					$new_items[] = $tracks[ $track_id ];
-				}
-
-				$playlist->{ 'Playlist Items' } = $new_items;
-			}
-		}
-		else {
+		if ( NULL === $this->data || !isset( $this->data[ 'Playlists' ] ) ) {
 			die( 'No data to work with' );
 		}
 
+		$tracks = (array) $this->data[ 'Tracks' ];
+
+		foreach( $this->data[ 'Playlists' ] as &$playlist ) {
+			$new_items = array();
+
+			foreach ( $playlist->{ 'Playlist Items' } as $item ) {
+				$track_id = $item->{ 'Track ID' };
+				$new_items[] = $tracks[ $track_id ];
+			}
+
+			$playlist->{ 'Playlist Items' } = $new_items;
+		}
 	}
 
 	// To be used with the uasort() array function
@@ -121,66 +119,62 @@ class iTunesXMLParser {
 		$field = $this->sort_field;
 		$direction = $this->sort_direction;
 
+		if ( !isset( $left[ $field ] ) ) {
+			return 1;
+		}
+		elseif ( !isset( $right[ $field ] ) ) {
+			return -1;
+		}
+
 		// Return the strcmp() of the two fields
-		if ( isset( $left[ $field ] ) && isset( $right[ $field ] ) ) {
+		$left = $left[ $field ];
+		$right = $right[ $field ];
 
-			$left = $left[ $field ];
-			$right = $right[ $field ];
+		switch ( gettype( $left ) ) {
 
-			switch ( gettype( $left ) ) {
+			case 'boolean':
+				$left = (int) $left;
+				$right = (int) $right;
 
-				case 'boolean':
-					$left = (int) $left;
-					$right = (int) $right;
+			case 'integer':
+			case 'double':
+				if ( 'descending' === $direction ) {
+					return $left === $right ? 0 : ( $left > $right ? -1 : 1 );
+				}
+				else {
+					return $left === $right ? 0 : ( $right > $left ? -1 : 1 );
+				}
+			break;
 
-				case 'integer':
-				case 'double':
+			default:
+
+				// Detect dates (ISO8601 based), convert to timestamps for comparison
+				$rx_date = '/^\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}(Z|\+\d{2}\:\d{2})$/';
+				if ( preg_match( $rx_date, $left ) && preg_match( $rx_date, $right ) ) {
+
+					$left = strtotime( $left );
+					$right = strtotime( $right );
+
 					if ( 'descending' === $direction ) {
 						return $left === $right ? 0 : ( $left > $right ? -1 : 1 );
 					}
 					else {
 						return $left === $right ? 0 : ( $right > $left ? -1 : 1 );
 					}
-				break;
 
-				default:
+				}
 
-					// Detect dates (ISO8601 based), convert to timestamps for comparison
-					$rx_date = '/^\d{4}\-\d{2}\-\d{2}T\d{2}\:\d{2}\:\d{2}(Z|\+\d{2}\:\d{2})$/';
-					if ( preg_match( $rx_date, $left ) && preg_match( $rx_date, $right ) ) {
-
-						$left = strtotime( $left );
-						$right = strtotime( $right );
-
-						if ( 'descending' === $direction ) {
-							return $left === $right ? 0 : ( $left > $right ? -1 : 1 );
-						}
-						else {
-							return $left === $right ? 0 : ( $right > $left ? -1 : 1 );
-						}
-
+				// Default to a string comparison
+				else {
+					if ( 'descending' === $direction ) {
+						return strcasecmp( $left, $right );
 					}
-
-					// Default to a string comparison
 					else {
-						if ( 'descending' === $direction ) {
-							return strcasecmp( $left, $right );
-						}
-						else {
-							return strcasecmp( $right, $left );
-						}
+						return strcasecmp( $right, $left );
 					}
-
-			}
+				}
 
 		}
-		elseif ( isset( $left[ $field ] ) ) {
-			return -1;
-		}
-		else {
-			return 1;
-		}
-
 	}
 
 	protected function parseDict( $baseNode ) {
