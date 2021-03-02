@@ -119,16 +119,16 @@ class iTunesXMLParser {
 		$field = $this->sort_field;
 		$direction = $this->sort_direction;
 
-		if ( !isset( $left[ $field ] ) ) {
+		if ( !isset( $left->{ $field } ) ) {
 			return 1;
 		}
-		elseif ( !isset( $right[ $field ] ) ) {
+		elseif ( !isset( $right->{ $field } ) ) {
 			return -1;
 		}
 
 		// Return the strcmp() of the two fields
-		$left = $left[ $field ];
-		$right = $right[ $field ];
+		$left = $left->{ $field };
+		$right = $right->{ $field };
 
 		switch ( gettype( $left ) ) {
 
