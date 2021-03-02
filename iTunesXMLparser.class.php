@@ -17,7 +17,7 @@
   based on:
 
   iTunes XML PhP Parser
-  Copyright (C) 2003 Robert A. Wallis [http://codetriangle.com/]
+  Copyright (C) 2003 Robert A. Wallis [http://github.com/robert-wallis]
   version: 1.00
 
   This program is free software; you can redistribute it and/or
