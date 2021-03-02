@@ -1,25 +1,21 @@
 <?php
 /*
   iTunes XML parser for PHP
-  Copyright (C) 2021 Conan Theobald [http://github.com/shuckster]
-  version: 1.6
-    Changes:
-      * 1.6: Fix sort() accessors
-      * 1.5: Simplify parseDict, API changes
-      * 1.4: Parse info and playlists
-      * 1.3: New example, delete old/deprecated stuff
-      * 1.2: Now a class, improved sort-method
-      * 1.1: Type-cast integers and booleans
+  Copyright (C) 2013-2021 Conan Theobald [http://github.com/shuckster]
+  Version: 1.6
 
-  based on:
+  Source repository:
+  - https://github.com/shuckster/iTunes-XML-parser-for-PHP
 
-  Copyright (C) 2005 Peter Minarik [http://www.wirsindecht.org]
-  version: 1.00
-  based on:
+  Based on:
 
-  iTunes XML PhP Parser
-  Copyright (C) 2003 Robert A. Wallis [http://github.com/robert-wallis]
-  version: 1.00
+    Copyright (C) 2005 Peter Minarik [http://www.wirsindecht.org]
+    version: 1.00
+    based on:
+
+    iTunes XML PhP Parser
+    Copyright (C) 2003 Robert A. Wallis [https://github.com/robert-wallis]
+    version: 1.00
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE

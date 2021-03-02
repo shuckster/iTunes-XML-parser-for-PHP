@@ -1,24 +1,19 @@
 <?php
 /*
-  Example for using iTunes XML parser for PHP
-  Copyright (C) 2013 Conan Theobald [http://github.com/shuckster]
-  version: 1.5
-    Changes:
-      * 1.5: Simplify parseDict, API changes
-      * 1.4: Parse info and playlists
-      * 1.3: New example, delete old/deprecated stuff
-      * 1.2: Now a class, improved sort-method
-      * 1.1: Type-cast integers and booleans
+  Example for using iTunes XML parser for PHP.
+  Copyright (C) 2013-2021 Conan Theobald [http://github.com/shuckster]
+  Source repository:
+  - https://github.com/shuckster/iTunes-XML-parser-for-PHP
 
   based on:
 
-  Copyright (C) 2005 Peter Minarik [http://www.wirsindecht.org]
-  version: 1.00
-  based on:
+    Copyright (C) 2005 Peter Minarik [http://www.wirsindecht.org]
+    version: 1.00
+    based on:
 
-  iTunes XML PhP Parser
-  Copyright (C) 2003 Robert A. Wallis [https://github.com/robert-wallis]
-  version: 1.00
+    iTunes XML PhP Parser
+    Copyright (C) 2003 Robert A. Wallis [https://github.com/robert-wallis]
+    version: 1.00
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
@@ -54,7 +49,8 @@ $itunes->open( $xml_path );
     print_r( $itunes->data );
 */
 
-// Find only videos (kind of useless, since the example XML only has video in it ;)
+// Find only videos (kind of useless, since the example XML only
+// has video in it ;)
 $video = array();
 $tracks = (array) $itunes->data[ 'Tracks' ];
 foreach ( $tracks as $track ) {
@@ -67,7 +63,8 @@ print_r( $video );
 exit;
 
 /*
- * JSON output example
+ * Old JSON output example using JSBeautify.
+ * These days we can use json_encode()
  */
 
 // JSBeautify and options
