@@ -45,6 +45,40 @@ class iTunesXMLParser {
   public $sort_field = NULL;
   public $sort_direction = 'ascending';
 
+  //
+  // INTERFACE
+  //
+  public function parse( $source ) {
+    return $this->openFileOrSource( NULL, $source );
+  }
+
+  public function open( $file ) {
+    return $this->openFileOrSource( $file );
+  }
+
+  public function processPlaylists() {
+
+    if ( NULL === $this->data || !isset( $this->data[ 'Playlists' ] ) ) {
+      die( 'No data to work with' );
+    }
+
+    $tracks = (array) $this->data[ 'Tracks' ];
+
+    foreach( $this->data[ 'Playlists' ] as &$playlist ) {
+      $new_items = array();
+
+      foreach ( $playlist->{ 'Playlist Items' } as $item ) {
+        $track_id = $item->{ 'Track ID' };
+        $new_items[] = $tracks[ $track_id ];
+      }
+
+      $playlist->{ 'Playlist Items' } = $new_items;
+    }
+  }
+
+  //
+  // IMPLEMENTATION
+  //
   protected function openFileOrSource( $file = NULL, $source = NULL) {
 
     // Open the XML document in the DOM
@@ -80,34 +114,6 @@ class iTunesXMLParser {
     $this->file_name = $file;
     $this->data = $this->parseDict( $first_dict_node, NULL );
 
-  }
-
-  public function parse( $source ) {
-    return $this->openFileOrSource( NULL, $source );
-  }
-
-  public function open( $file ) {
-    return $this->openFileOrSource( $file );
-  }
-
-  public function processPlaylists() {
-
-    if ( NULL === $this->data || !isset( $this->data[ 'Playlists' ] ) ) {
-      die( 'No data to work with' );
-    }
-
-    $tracks = (array) $this->data[ 'Tracks' ];
-
-    foreach( $this->data[ 'Playlists' ] as &$playlist ) {
-      $new_items = array();
-
-      foreach ( $playlist->{ 'Playlist Items' } as $item ) {
-        $track_id = $item->{ 'Track ID' };
-        $new_items[] = $tracks[ $track_id ];
-      }
-
-      $playlist->{ 'Playlist Items' } = $new_items;
-    }
   }
 
   // To be used with the uasort() array function
