@@ -43,6 +43,23 @@ $itunes->open( $xml_path );
 For conversion to JSON, I recommend using the `jsbeautifier.org`
 [PHP port](https://github.com/einars/js-beautify/tree/attic-php/php).
 
+EDIT - No need for that [now](https://www.php.net/manual/en/function.json-encode.php). :)
+
+## 2021 update
+
+Before releasing 1.6 I discovered a fork by @dajoho that has a `composer.json`:
+
+*   https://github.com/dajoho/itunes-php
+
+This version had also already fixed the [sort() bug](https://github.com/shuckster/iTunes-XML-parser-for-PHP/commit/1d02fb4c0b93309712f8bcf1733d2746cdb90737) [2 years ago](https://github.com/dajoho/itunes-php/commit/eb28d8a3873607dc57aa412f6cffcafa58173f57)! :)
+
+## Contributors
+
+*   [@nickbe](https://github.com/nickbe) - Bug report
+*   [@dajoho](https://github.com/dajoho) - Composer compatible fork
+*   [@SidRoberts](https://github.com/SidRoberts) - Code improvement
+
+
 ## Credits
 
 Based on work by:
