@@ -5,7 +5,7 @@ iTunes XML parser for PHP
 
 Original code copyright (c) 2003 by [Robert A. Wallis](https://github.com/robert-wallis).
 Dicked around with in 2005 by [Peter Minarik](http://www.wirsindecht.org/),
-and in 2013 by [Conan Theobald](mailto:me[at]conans[dot]co[dot]uk).
+and in 2013-2021 by [Conan Theobald](https://github.com/shuckster).
 
 LGPL2.1 licensed: See [LICENSE](LICENSE)
 
