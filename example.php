@@ -42,7 +42,7 @@ $xml_path = 'iTunes playlist export.xml';
 $itunes = new iTunesXMLParser();
 $itunes->sort_field = 'Track ID';
 $itunes->sort_direction = 'ascending';
-$itunes->open( $xml_path );
+$itunes->open($xml_path);
 
 /*
   "$itunes->data" is now available. print_r to see what's inside:
@@ -51,16 +51,20 @@ $itunes->open( $xml_path );
 
 // Find only videos (kind of useless, since the example XML only
 // has video in it ;)
-$video = array();
-$tracks = (array) $itunes->data[ 'Tracks' ];
-foreach ( $tracks as $track ) {
-	if ( isset( $track->{ 'Has Video' } ) && $track->{ 'Has Video' } && isset( $track->{ 'Location' } ) ) {
-		$video[] = $track;
-	}
+$video = [];
+$tracks = (array) $itunes->data['Tracks'];
+foreach ($tracks as $track) {
+  if (
+    isset($track->{'Has Video'}) &&
+    $track->{'Has Video'} &&
+    isset($track->{'Location'})
+  ) {
+    $video[] = $track;
+  }
 }
 
-print_r( $video );
-exit;
+print_r($video);
+exit();
 
 /*
  * Old JSON output example using JSBeautify.
@@ -77,8 +81,8 @@ $jsb_opts = new BeautifierOptions();
 $jsb_opts->indent_size = 1;
 $jsb_opts->indent_with_tabs = true;
 
-header( 'Content-type: application/json; charset=utf-8' );
-echo $jsb->beautify( json_encode( $video ), $jsb_opts );
-exit;
+header('Content-type: application/json; charset=utf-8');
+echo $jsb->beautify(json_encode($video), $jsb_opts);
+exit();
 
 ?>
