@@ -4,7 +4,7 @@ iTunes XML parser for PHP
 #### A class to extract info, tracks and playlists from an iTunes XML file.
 
 Original code copyright (c) 2003 by [Robert A. Wallis](https://github.com/robert-wallis).
-Dicked around with in 2005 by [Peter Minarik](http://www.wirsindecht.org/),
+Dicked around with in 2005 by [Peter Minarik](https://peterminarik.com/),
 and in 2013-2021 by [Conan Theobald](https://github.com/shuckster).
 
 LGPL2.1 licensed: See [LICENSE](LICENSE)
