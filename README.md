@@ -64,5 +64,5 @@ This version had also already fixed the [sort() bug](https://github.com/shuckste
 
 Based on work by:
 
-*   Robert Wallis
-*   http://www.wirsindecht.org/
+*   [Robert Wallis](https://github.com/robert-wallis)
+*   [Peter Minarik](https://peterminarik.com/)
