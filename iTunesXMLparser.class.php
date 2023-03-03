@@ -9,7 +9,7 @@
 
   Based on:
 
-    Copyright (C) 2005 Peter Minarik [http://www.wirsindecht.org]
+    Copyright (C) 2005 Peter Minarik [https://peterminarik.com]
     version: 1.00
     based on:
 
